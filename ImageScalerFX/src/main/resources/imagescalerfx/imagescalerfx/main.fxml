@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imagescalerfx.imagescalerfx.Controller">
+   <left>
+      <VBox prefHeight="363.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Images" />
+            <ListView fx:id="lvImages" onMouseClicked="#lvImageClick" prefHeight="348.0" prefWidth="190.0" />
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnStart" alignment="CENTER" mnemonicParsing="false" onAction="#scale" text="Start">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <ImageView fx:id="ivImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </ImageView>
+            <Button fx:id="btnChart" mnemonicParsing="false" onAction="#openChart" text="Chart" />
+         </children>
+         <padding>
+            <Insets top="40.0" />
+         </padding>
+      </VBox>
+   </center>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Scaled instances" />
+            <ListView fx:id="lvScaled" onMouseClicked="#lvScaledClick" prefHeight="346.0" prefWidth="190.0" />
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </VBox>
+   </right>
+   <top>
+      <Label prefHeight="23.0" prefWidth="97.0" text="ImageScalerFX" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </top>
+   <bottom>
+      <Label fx:id="lblStatus" prefHeight="34.0" prefWidth="215.0" BorderPane.alignment="CENTER_LEFT">
+         <BorderPane.margin>
+            <Insets left="10.0" />
+         </BorderPane.margin>
+      </Label>
+   </bottom>
+</BorderPane>

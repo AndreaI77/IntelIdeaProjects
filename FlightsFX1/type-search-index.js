@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"flightsfx.flightsfx","l":"ChartController"},{"p":"flightsfx.utils","l":"FileUtils"},{"p":"flightsfx.model","l":"Flight"},{"p":"flightsfx.flightsfx","l":"FlightsFX"},{"p":"flightsfx.flightsfx","l":"FXMLMainViewController"},{"p":"flightsfx.utils","l":"MessageUtils"}];updateSearchResults();

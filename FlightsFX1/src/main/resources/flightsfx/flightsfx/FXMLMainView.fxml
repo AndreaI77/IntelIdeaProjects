@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="flightsfx.flightsfx.FXMLMainViewController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <TableView fx:id="tabla" layoutX="184.0" layoutY="-2.0" onMouseClicked="#tableClick" prefHeight="196.0" prefWidth="599.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                <TableColumn fx:id="colNumber" prefWidth="138.7999786734581" text="Flight number" />
+                <TableColumn fx:id="colDestination" prefWidth="193.6000213623047" text="Destination" />
+                  <TableColumn fx:id="colDeparture" prefWidth="167.20001220703125" text="Departure" />
+                  <TableColumn fx:id="colDuration" prefWidth="96.60000610351562" text="Duration" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <VBox layoutX="171.0" layoutY="-2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label minWidth="-Infinity" text="Flight number" />
+                        <TextField fx:id="txtflight" prefHeight="26.0" prefWidth="123.0" />
+                        <Label minWidth="-Infinity" text="Destination">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="txtDestination" />
+                        <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addFlight" text="Add">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label minWidth="-Infinity" prefHeight="18.0" prefWidth="55.0" text="Departure" />
+                        <TextField fx:id="txtDeparture" prefHeight="26.0" prefWidth="150.0" promptText="dd/mm/yyy hh:mm" />
+                        <Label minWidth="-Infinity" text="Duration">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="txtDuration" promptText="hh:mm" />
+                        <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteFlight" text="Delete">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <ComboBox fx:id="cbFilter" prefHeight="26.0" prefWidth="189.0" />
+                        <Button fx:id="btnFilter" mnemonicParsing="false" onAction="#filter" text="Apply filter" />
+                        <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#update" text="Update flight">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <Label minWidth="-Infinity" text="Search flight" />
+                        <TextField fx:id="txtSearch" onKeyReleased="#search" promptText="Insert text to find a flight" />
+                        <Button fx:id="btnChart" mnemonicParsing="false" onAction="#openChart" text="Open Chart">
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+  </items>
+</SplitPane>

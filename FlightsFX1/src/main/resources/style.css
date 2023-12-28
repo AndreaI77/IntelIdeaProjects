@@ -1,0 +1,14 @@
+.root
+{
+    -fx-background-color: #9babfa;
+    -fx-font-family: "Arial";
+     -fx-text-background-color: black; /*grey was not visible enough*/
+}
+.button {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+
+}
+#btnDel{
+    -fx-text-fill: red;
+}

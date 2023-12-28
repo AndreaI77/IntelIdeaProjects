@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/IdeaProjects.iml" filepath="$PROJECT_DIR$/.idea/IdeaProjects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_0_Hola mundo/_0_Hola mundo.iml" filepath="$PROJECT_DIR$/_0_Hola mundo/_0_Hola mundo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_1a_Stores/_1a_Stores.iml" filepath="$PROJECT_DIR$/_1a_Stores/_1a_Stores.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_1b_KillEnemies/_1b_KillEnemies.iml" filepath="$PROJECT_DIR$/_1b_KillEnemies/_1b_KillEnemies.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_2a_Companies/_2a_Companies.iml" filepath="$PROJECT_DIR$/_2a_Companies/_2a_Companies.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_2b_ListBenchmark/_2b_ListBenchmark.iml" filepath="$PROJECT_DIR$/_2b_ListBenchmark/_2b_ListBenchmark.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_2c_AnimalConversation/_2c_AnimalConversation.iml" filepath="$PROJECT_DIR$/_2c_AnimalConversation/_2c_AnimalConversation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_2d_RegexReader/_2d_RegexReader.iml" filepath="$PROJECT_DIR$/_2d_RegexReader/_2d_RegexReader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_2e_FolderCopy/_2e_FolderCopy.iml" filepath="$PROJECT_DIR$/_2e_FolderCopy/_2e_FolderCopy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_2f_MovieManagement/_2f_MovieManagement.iml" filepath="$PROJECT_DIR$/_2f_MovieManagement/_2f_MovieManagement.iml" />
+    </modules>
+  </component>
+</project>
