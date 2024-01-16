@@ -12,7 +12,6 @@ public class ServerThread extends Thread {
 
     private int correct = 0;
     private int incorrect = 0;
-
     private static boolean finish = false;
     public static Deck deck;
 
@@ -45,11 +44,12 @@ public class ServerThread extends Thread {
             objectOut = new ObjectOutputStream(service.getOutputStream());
             System.out.println("creado object output");
             String line = "";
+
             while (!finish) {
                 System.out.println("dentro finish");
-                //socketOut.writeUTF("card");
-
                 System.out.println("enviado card");
+                socketOut.writeUTF("card");
+                System.out.println("tarjeta enviada");
                 card = deck.getCard();
                 objectOut.writeObject(card);
                 // Read message from the client
@@ -79,7 +79,7 @@ public class ServerThread extends Thread {
 
 
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } /*finally {
             try {
                 if (objectOut != null)

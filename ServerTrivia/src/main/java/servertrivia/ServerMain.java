@@ -96,6 +96,9 @@ public class ServerMain {
                             socketOut.writeUTF("Do you wish to repeat the game?");
                             if (socketIn.readUTF().equals("no")) {
                                 finish = true;
+                                System.out.println("no");
+                            }else{
+                                System.out.println("yes");
                             }
                         }
                     }

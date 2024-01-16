@@ -32,7 +32,7 @@ public class MessageUtils {
         Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
         dialog.setTitle("Confirmation");
         Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("Icon2.jpg"));
+        //stage.getIcons().add(new Image("Icon2.jpg"));
         dialog.setHeaderText(header);
         dialog.setContentText(message);
         Optional<ButtonType> result = dialog.showAndWait();

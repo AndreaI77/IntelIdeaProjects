@@ -136,11 +136,9 @@ public class Controller implements Initializable {
                         }
                         socketOut.writeUTF(name);
                         System.out.println("enviado nombre");
-                        /* line = socketIn.readUTF();//card
-                        System.out.println(line);*/
-                       // lblResult.setText("");
                         objectIn = new ObjectInputStream(mySocket.getInputStream());
-                        System.out.println("creado object intput");
+                        System.out.println(socketIn.readUTF());
+
                         getCard();
                         ObservableList<Toggle> rb = options.getToggles();
                         for (Toggle t : rb) {
@@ -251,14 +249,19 @@ public class Controller implements Initializable {
       }
   }
     public void repeatGame() throws IOException, ClassNotFoundException {
-        String st =socketIn.readUTF();//new game
+        String st =socketIn.readUTF();//repeat game?
         System.out.println(st);
         if(MessageUtils.askConfirmation("Repeat game",st)){
             socketOut.writeUTF("yes");
-            System.out.println(socketIn.readUTF());
-            getCard();
+
+
             btnSend.setDisable(false);
             btnStop.setDisable(false);
+            socketOut.writeUTF(name);
+            st =socketIn.readUTF();//card
+            System.out.println(st);
+            getCard();
+
         }else{
             socketOut.writeUTF("no");
             st=socketIn.readUTF();
