@@ -2,24 +2,33 @@ package servertrivia;
 
 import questionmodel.Card;
 import questionmodel.Deck;
-
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Paths;
 
+/**
+ * Class that handles the connection and communication with each client
+ */
 public class ServerThread extends Thread {
     Socket service;
 
-    private int correct = 0;
-    private int incorrect = 0;
-    private static boolean finish = false;
+    private int correct;
+    private int incorrect;
+    private static boolean finish;
     public static Deck deck;
 
+    /**
+     * constructor of the thread class
+     * @param s socket with the clients connection
+     */
     public ServerThread(Socket s)
     {
         service = s;
     }
 
+    /**
+     * main method of the thread, handles all the communication with the client
+     */
     @Override
     public void run()
     {
@@ -27,34 +36,41 @@ public class ServerThread extends Thread {
         DataInputStream  socketIn = null;
         DataOutputStream socketOut = null;
 
+        // if the deck is null, the first thread reates new deck
         if(deck == null) {
             deck = new Deck(Paths.get("cards.txt").toAbsolutePath());
         }
-        Card card = null;
 
+        Card card = null;
+        correct = 0;
+        incorrect=0;
         try
         {
-            System.out.println("dentro de try");
+            System.out.println("Dentro de run");
+           //create  objects to comunicate with the client
             socketIn = new DataInputStream(service.getInputStream());
             socketOut = new DataOutputStream(service.getOutputStream());
 
+            //sets the name of the thread
             String name = socketIn.readUTF();
             this.setName(name);
-            System.out.println(this.getName());
-            objectOut = new ObjectOutputStream(service.getOutputStream());
-            System.out.println("creado object output");
-            String line = "";
 
+            objectOut = new ObjectOutputStream(service.getOutputStream());
+
+            String line = "";
+            finish = false;
             while (!finish) {
-                System.out.println("dentro finish");
-                System.out.println("enviado card");
-                socketOut.writeUTF("card");
-                System.out.println("tarjeta enviada");
+                System.out.println("dentro run");
+
+                //socketOut.writeUTF("card");
+                objectOut.writeObject("card");
+                System.out.println("card");
+                //get a card and send it to the client
                 card = deck.getCard();
                 objectOut.writeObject(card);
-                // Read message from the client
+
+                // Read answer from the client
                 line = socketIn.readUTF();
-                System.out.println("Read: " + line);
 
                 if (line.equals("end")){
                     socketOut.writeUTF("end");
@@ -63,7 +79,7 @@ public class ServerThread extends Thread {
                     socketOut.writeUTF("passed");
 
                 }else {
-                    //System.out.println(card.getAnswer()+": "+line);
+
                     if(card.getAnswer().equals(line)){
                         socketOut.writeUTF("yes");
                         this.correct++;
@@ -72,40 +88,35 @@ public class ServerThread extends Thread {
                         this.incorrect ++;
                     }
                 }
-
             }
-            System.out.println("terminated");
-            socketOut.writeUTF("terminated");
-
+            //socketOut.writeUTF("terminated");
+            objectOut.writeObject("terminated");
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        } /*finally {
-            try {
-                if (objectOut != null)
-                    objectOut.close();
-            } catch (IOException ex) {}
-            try {
-                if (socketOut != null)
-                    socketOut.close();
-            } catch (IOException ex) {}
-            try {
-                if (socketIn != null)
-                    socketIn.close();
-
-            } catch (IOException ex) {}
-        }*/
-
+        }
     }
 
+    /**
+     * getter
+     * @return the amount of correct answers
+     */
     public int getCorrect() {
         return correct;
     }
 
+    /**
+     * getter
+     * @return amount of incorrect answers
+     */
     public int getIncorrect() {
         return incorrect;
     }
 
+    /**
+     * toString method
+     * @return the information with the name and the results of the thread
+     */
     @Override
     public String toString() {
         return "Name: "+this.getName()+", correct " + correct + ", incorrect " + incorrect ;

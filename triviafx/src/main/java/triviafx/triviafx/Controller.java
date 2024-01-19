@@ -15,6 +15,9 @@ import java.net.UnknownHostException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Class that controls the associated view and its functions
+ */
 public class Controller implements Initializable {
     @FXML
     private RadioButton rbpass;
@@ -56,6 +59,11 @@ public class Controller implements Initializable {
     private int correct;
     private int incorrect;
 
+    /**
+     * method  that initialize the object in the view that needs to have come values. Sets the toggle group of the radioButtons
+     * @param url Url object
+     * @param resourceBundle ResourceBundle object
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         options = new ToggleGroup();
@@ -66,9 +74,14 @@ public class Controller implements Initializable {
         rb4.setToggleGroup(options);
         rbpass.setToggleGroup(options);
     }
+
+    /**
+     * Method called by the connect button. Gets the values from fields and makes connection.
+     * Ass the first player for the amount of players, gets the first card and sets visible all the elements needed
+     * @param actionEvent
+     */
     public void connect(ActionEvent actionEvent) {
         name = txtPlayer.getText().trim();
-        System.out.println(name);
         if(name.isEmpty()){
             MessageUtils.showError("Write your name!","Players name is missing!");
         }else {
@@ -96,15 +109,15 @@ public class Controller implements Initializable {
 
                         String line;
                         // Read response from server
+
                         line = socketIn.readUTF();
-                        System.out.println("Response : " + line);
+                        //System.out.println("Response : " + line);
                         if (line.equals("How many players will join the game?")) {
                             boolean pl = false;
                             while (!pl) {
                                 TextInputDialog dialog = new TextInputDialog();
                                 dialog.setTitle("Players");
                                 dialog.setHeaderText(line);
-                                //dialog.setContentText(line);
                                 String result = "";
                                 Optional<String> opt = dialog.showAndWait();
                                 TextField rslt = dialog.getEditor();
@@ -134,11 +147,12 @@ public class Controller implements Initializable {
                                 }
                             }
                         }
+                        line = socketIn.readUTF();
+                        //System.out.println("Response : " + line);
                         socketOut.writeUTF(name);
-                        System.out.println("enviado nombre");
                         objectIn = new ObjectInputStream(mySocket.getInputStream());
-                        System.out.println(socketIn.readUTF());
 
+                        objectIn.readObject(); //card
                         getCard();
                         ObservableList<Toggle> rb = options.getToggles();
                         for (Toggle t : rb) {
@@ -158,70 +172,82 @@ public class Controller implements Initializable {
                 } catch (UnknownHostException ex) {
                     btnConnect.setDisable(false);
                     MessageUtils.showError("Error!", "Unknown host");
-
                     System.err.println("Unknown host: " + ex.getMessage());
-                    // System.exit(-1);
-
                 }
             }
         }
     }
 
+    /**
+     * method that send an answer to the card, add the correct or incorrect answer and in case of finishing game, shows the status.
+     * @param actionEvent
+     */
     public void sendAnswer(ActionEvent actionEvent) {
-        //lblStatus.setText("");
         Toggle t = options.getSelectedToggle();
-        RadioButton rb = (RadioButton)t;
-        String answer = rb.getText();
-        //System.out.println(answer);
+        if (t == null) {
+            MessageUtils.showError("Error", "Select an option");
+        }else{
+            RadioButton rb = (RadioButton) t;
+            String answer = rb.getText();
 
-        try {
-            socketOut.writeUTF(answer);
-            String st =socketIn.readUTF();
-            System.out.println(st);
-            if(st.equals("yes")){
-                lblStatus.setText("Correct!");
-                correct ++;
-            }else if(st.equals("no")){
-                lblStatus.setText("Incorrect!");
-                incorrect ++;
-            }else if(st.equals("passed")){
-                lblStatus.setText("Passed");
+            try {
+                socketOut.writeUTF(answer);
+                String st = socketIn.readUTF();
+                System.out.println(st);
+                if (st.equals("yes")) {
+                    lblStatus.setText("Correct!");
+                    correct++;
+                } else if (st.equals("no")) {
+                    lblStatus.setText("Incorrect!");
+                    incorrect++;
+                } else if (st.equals("passed")) {
+                    lblStatus.setText("Passed");
+                }
+
+                lblResult.setText("Correct: " + correct + ", Incorrect: " + incorrect);
+
+                String line = (String) objectIn.readObject();
+                System.out.println(line);
+                if (line.equals("card")) {
+                    getCard();
+                    t.setSelected(false);
+                } else {
+                    btnSend.setDisable(true);
+                    btnStop.setDisable(true);
+                    String str = socketIn.readUTF();//status
+                    //System.out.println(str);
+                    getStatus(str);
+                    repeatGame();
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
-
-            lblResult.setText("Correct: "+correct+", Incorrect: "+incorrect);
-
-            String line =socketIn.readUTF();
-            System.out.println(line);
-            if(line.equals("card")){
-                getCard();
-                t.setSelected(false);
-            }else{
-
-                btnSend.setDisable(true);
-                btnStop.setDisable(true);
-                String str =socketIn.readUTF();//status
-                System.out.println(str);
-                getStatus(str);
-                repeatGame();
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
+    /**
+     * method called by the button stop . gets the status and asks to repeat the game
+     * @param actionEvent  Click event of the button
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public void stopPlaying(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         lblStatus.setText("Waiting for other players to finish.....");
         btnSend.setDisable(true);
         btnStop.setDisable(true);
         socketOut.writeUTF("end");
         lblStatus.setText(socketIn.readUTF()); //end
-        socketIn.readUTF();//terminated
+        objectIn.readObject();
         String st =socketIn.readUTF(); //status
-        System.out.println(st);
         getStatus(st);
         repeatGame();
     }
 
+    /**
+     * methodthat gets a nwe card and assign the values to the objects in the view.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
   public void getCard() throws IOException, ClassNotFoundException {
 
           card = (Card)(objectIn.readObject());
@@ -230,16 +256,19 @@ public class Controller implements Initializable {
               String [] list = card.getOptions();
               ObservableList<Toggle> rb  =options.getToggles();
               for(int i=0; i<list.length; i++){
-
                   RadioButton rbt = (RadioButton)rb.get(i);
                   rbt.setText(list[i]);
-                  //System.out.println(rbt.getText());
               }
               rbpass.setText("Pass");
           }else{
               MessageUtils.showError("Error", " No se ha cargado ninguna tarjeta.");
           }
   }
+
+    /**
+     * method that gets the final status of the game
+     * @param st String with the message received form the server
+     */
   public void getStatus(String st){
       String [] parts = st.split(";");
       if(this.name.equals(parts[0])){
@@ -248,23 +277,48 @@ public class Controller implements Initializable {
           lblStatus.setText("You loose! \n"+parts[1]);
       }
   }
+
+    /**
+     * method that confirm if the player wants to repeat the game and  either gets a nes card or shows final message
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public void repeatGame() throws IOException, ClassNotFoundException {
         String st =socketIn.readUTF();//repeat game?
         System.out.println(st);
         if(MessageUtils.askConfirmation("Repeat game",st)){
             socketOut.writeUTF("yes");
-
-
-            btnSend.setDisable(false);
-            btnStop.setDisable(false);
-            socketOut.writeUTF(name);
-            st =socketIn.readUTF();//card
+           st=socketIn.readUTF(); // new game or game over
             System.out.println(st);
-            getCard();
+            if(st.equals("New Game")) {
+                btnSend.setDisable(false);
+                btnStop.setDisable(false);
+                correct = 0;
+                incorrect = 0;
+                lblResult.setText("");
+                lblStatus.setText("");
+                socketOut.writeUTF(name);
+
+                socketIn = new DataInputStream(mySocket.getInputStream());
+                socketOut = new DataOutputStream(mySocket.getOutputStream());
+                objectIn = new ObjectInputStream(mySocket.getInputStream());
+                String line = (String) objectIn.readObject();//card
+
+                getCard();
+                Toggle t = options.getSelectedToggle();
+                if (t != null) {
+                    t.setSelected(false);
+                }
+            }else{
+                System.out.println(st);
+                lblResult.setText(st);
+                lblStatus.setText("");
+            }
 
         }else{
             socketOut.writeUTF("no");
             st=socketIn.readUTF();
+            System.out.println(st);
             lblResult.setText(st);
             lblStatus.setText("");
         }

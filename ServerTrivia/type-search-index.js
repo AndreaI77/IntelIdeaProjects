@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"servertrivia","l":"Player"},{"p":"servertrivia","l":"ServerMain"},{"p":"servertrivia","l":"ServerThread"}];updateSearchResults();

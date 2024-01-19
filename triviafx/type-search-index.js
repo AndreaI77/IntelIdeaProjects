@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"triviafx.triviafx","l":"Controller"},{"p":"triviafx.triviafx","l":"Main"},{"p":"triviafx.triviafx","l":"MessageUtils"}];updateSearchResults();

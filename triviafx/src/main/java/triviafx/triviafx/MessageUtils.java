@@ -7,7 +7,15 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
+/**
+ * Class with different messages
+ */
 public class MessageUtils {
+    /**
+     * Information message
+     * @param header title of the message
+     * @param message text of the message
+     */
     public static void showMessage(String header, String message){
         Alert dialog = new Alert(Alert.AlertType.INFORMATION);
         dialog.setTitle("Information");
@@ -28,6 +36,13 @@ public class MessageUtils {
         dialog.setContentText(message);
         dialog.showAndWait();
     }
+
+    /**
+     * confirmation message
+     * @param header String wuith the title of the message box
+     * @param message String with the text of the message
+     * @return Boolean wit the response
+     */
     public static boolean askConfirmation(String header, String message){
         Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
         dialog.setTitle("Confirmation");
